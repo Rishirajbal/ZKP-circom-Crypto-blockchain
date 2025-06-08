@@ -17,15 +17,19 @@ This repository provides a practical introduction to Zero-Knowledge Proofs (ZKPs
 - Ready-to-use examples with input/output files
 - Comprehensive tutorial for ZKP beginners and intermediate users
 - Integration with SnarkJS for proof generation and verification
+- Automated workflow script for the complete ZKP process
 
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
 - [Usage](#usage)
 - [Circuit Examples](#circuit-examples)
 - [Proof Generation and Verification](#proof-generation-and-verification)
+- [Automated Workflow](#automated-workflow)
+- [Troubleshooting](#troubleshooting)
 - [Advanced Topics](#advanced-topics)
 - [Contributing](#contributing)
 - [License](#license)
@@ -85,14 +89,36 @@ npm install -g snarkjs
 ZKP-circom-Crypto-blockchain/
 ├── Fibonacci.circom              # Basic Fibonacci implementation
 ├── Fibonacci_using_functions.circom  # Function-based implementation
+├── SimpleMultiplier.circom       # Simple multiplier circuit for demonstration
 ├── fib_circom.circom             # Modular Fibonacci function
 ├── fib_circom2.circom            # Implementation using modular import
-├── input.json                    # Sample input values
+├── input.json                    # Sample input values for Fibonacci
+├── multiplier_input.json         # Sample input for the multiplier circuit
+├── run_zkp.sh                    # Automated workflow script
 ├── proof.json                    # Generated proof
 ├── public.json                   # Public inputs/outputs
 ├── *.r1cs                        # R1CS constraint files
 └── *.sym                         # Symbol files
 ```
+
+## Quick Start
+
+To quickly get started with the ZKP workflow, use the provided automated script:
+
+```bash
+# Make the script executable (if not already)
+chmod +x run_zkp.sh
+
+# Run the workflow with the SimpleMultiplier circuit
+./run_zkp.sh SimpleMultiplier multiplier_input.json
+```
+
+This will:
+1. Compile the SimpleMultiplier circuit
+2. Generate a witness based on the input (a=7, b=6)
+3. Set up the trusted setup
+4. Generate and verify a proof
+5. Create a Solidity verifier contract
 
 ## Usage
 
@@ -207,6 +233,65 @@ The repository includes example files for proof generation and verification:
 - `proof.json`: A sample generated proof
 - `public.json`: Public inputs/outputs for verification
 
+### What's Missing in the Original Repository
+
+The original repository was missing several key components needed for a complete ZKP workflow:
+
+1. **WebAssembly (WASM) Files**: After compiling a circuit, you need the WASM files to generate witnesses. These files are created when you compile with the `--wasm` flag.
+
+2. **Witness Generation Code**: The JavaScript code needed to generate witnesses from inputs was missing.
+
+3. **Powers of Tau File**: The trusted setup requires a Powers of Tau file, which needs to be downloaded.
+
+4. **Automated Workflow**: There was no script to automate the entire process from compilation to verification.
+
+5. **Solidity Verifier**: Code to generate a Solidity verifier contract for on-chain verification was missing.
+
+These missing components have been added to the repository to provide a complete ZKP workflow.
+
+## Automated Workflow
+
+The `run_zkp.sh` script automates the entire ZKP workflow:
+
+```bash
+./run_zkp.sh <circuit_name> [input_file]
+```
+
+For example:
+```bash
+./run_zkp.sh Fibonacci input.json
+```
+
+The script performs the following steps:
+1. Compiles the circuit
+2. Downloads the Powers of Tau file if needed
+3. Generates the witness
+4. Sets up the trusted setup
+5. Exports the verification key
+6. Generates the proof
+7. Verifies the proof
+8. Generates a Solidity verifier contract
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Missing WASM Files**:
+   - Error: `Cannot find module './Fibonacci_js/generate_witness.js'`
+   - Solution: Make sure to compile with the `--wasm` flag: `circom Fibonacci.circom --r1cs --wasm --sym`
+
+2. **Powers of Tau File**:
+   - Error: `Error: File "pot.ptau" not found`
+   - Solution: Download the file: `wget https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_10.ptau -O pot.ptau`
+
+3. **Input Format Issues**:
+   - Error: `Error: Input signal not found: a`
+   - Solution: Make sure your input.json file has the correct signal names matching your circuit
+
+4. **Memory Issues with Large Circuits**:
+   - Error: `JavaScript heap out of memory`
+   - Solution: Increase Node.js memory: `NODE_OPTIONS=--max-old-space-size=4096 node ...`
+
 ## Advanced Topics
 
 ### Modular Circuit Design
@@ -220,6 +305,19 @@ The repository demonstrates modular circuit design through:
 - Using functions for repeated calculations
 - Efficient constraint generation
 - Modular design for reusability
+
+### Blockchain Integration
+
+To integrate your ZKP system with a blockchain:
+
+1. Generate a Solidity verifier contract:
+   ```bash
+   snarkjs zkey export solidityverifier circuit.zkey verifier.sol
+   ```
+
+2. Deploy the verifier contract to your blockchain of choice
+
+3. Call the `verifyProof` function with your proof and public inputs
 
 ## Contributing
 
@@ -237,4 +335,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-*Note: This README was created with the assistance of AI to provide a comprehensive and professional documentation for the ZKP-circom-Crypto-blockchain repository.*
+*Note: This README was created with the assistance of AI to provide a comprehensive and professional documentation for the ZKP-circom-Crypto-blockchain repository. The AI helped identify missing components in the original repository and created additional files and documentation to ensure a complete and functional ZKP workflow.*
