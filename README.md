@@ -1,3 +1,6 @@
+# Note: This README was created with the assistance of AI to provide a comprehensive and professional documentation for the ZKP-circom-Crypto-blockchain repository. The AI helped identify missing components in the original repository and created additional files and documentation to ensure a complete and functional ZKP workflow.ALL the code has been done by a repository owner that is https://github.com/Rishirajbal.
+
+
 # ZKP-circom-Crypto-blockchain
 
 A comprehensive toolkit and tutorial for Zero-Knowledge Proofs (ZKP) using Circom and SnarkJS.
@@ -455,11 +458,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-*Note: This README was created with the assistance of AI to provide a comprehensive and professional documentation for the ZKP-circom-Crypto-blockchain repository. The AI helped identify missing components in the original repository and created additional files and documentation to ensure a complete and functional ZKP workflow.*
