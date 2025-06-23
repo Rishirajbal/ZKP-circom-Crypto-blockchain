@@ -1,4 +1,4 @@
-* Note: This README was created with the assistance of AI to provide a comprehensive and professional documentation for the ZKP-circom-Crypto-blockchain repository. The AI helped identify missing components in the original repository and created additional files and documentation to ensure a complete and functional ZKP workflow.ALL the code has been done by a repository owner that is https://github.com/Rishirajbal.
+* Note: This README was created with the assistance of AI to provide a comprehensive and professional documentation for the ZKP-circom-Crypto-blockchain repository. The AI helped identify missing components in the original repository and created additional files and documentation to ensure a complete and functional ZKP workflow.ALL the code has been done by the repository owner that is https://github.com/Rishirajbal.
 
 
 # ZKP-circom-Crypto-blockchain
